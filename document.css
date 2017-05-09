@@ -6,8 +6,9 @@
  *
  */
 
-@import url(http://fonts.googleapis.com/css?family=Inconsolata:400,700);
-@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic,700italic);
+@import url('http://fonts.googleapis.com/css?family=Inconsolata:400,700');
+/*@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro:400,700');*/
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,600,600i');
 
 /* View baseline and blocks */
 /*html { background-image: url(http://basehold.it/i/10); }
@@ -80,7 +81,6 @@ body {
 
 body {
   font-family: "Source Sans Pro", sans-serif;
-/*  font-family: "Alegreya", serif;*/
   font-weight: 400;
 }
 
@@ -90,7 +90,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 pre, code {
-  font-family: "Inconsolata";
+/*  font-family: "Source Code Pro", mono;
+  font-size: 12px; */
+  font-family: "Inconsolata", mono;
+  font-size: 13px;
 }
 
 /* do not affect line height based on <code> elements' font */
