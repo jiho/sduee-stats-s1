@@ -463,10 +463,31 @@ Practice
 plot(x=d$temperature, y=d$precipitations)
 plot(precipitations ~ temperature, data=d)
 
-nice_colors <- hcl(seq(10, 340, length.out=4), c=80, l=65)
-plot(precipitations ~ temperature, data=d, col=rep(nice_colors, times=4), pch=16)
-legend(8, 1400, legend=2013:2016, col=nice_colors, pch=16)
+my_colors <- c("red", "green", "blue", "purple")
+plot(precipitations ~ temperature, data=d, col=rep(my_colors, times=4))
+legend(8, 1400, legend=2013:2016, col=my_colors, pch=1)
 
+# or
+d$year <- factor(d$year)
+palette(hcl(seq(15, 345, length.out=4), c=100, l=65))
+plot(precipitations ~ temperature, data=d, col=year, pch=16)
+legend(8, 1400, legend=levels(d$year), col=1:nlevels(d$year), pch=16)
+
+# and even
+pars <- par(no.readonly=TRUE)       # save defaults
+par(oma=c(0,0,0,4)) # add space on right, for legend
+palette(hcl(seq(15, 345, length.out=nlevels(meteo$station)), c=100, l=65))
+plot(precipitations ~ temperature, data=d, col=year, pch=16)
+legend(
+  # on top right with no box
+  x=par("usr")[2], y=par("usr")[4], bty="n",
+  # expand ploting region
+  xpd=NA,
+  # legend content
+  legend=levels(d$year), col=1:nlevels(d$year), pch=16
+)
+
+par(pars) # reset defaults
 boxplot(precipitations ~ year, data=d)
 stripchart(precipitations ~ year, data=d, vertical=TRUE)
 boxplot(precipitations ~ station, data=d)
