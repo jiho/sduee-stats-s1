@@ -317,12 +317,46 @@ dar <- reduce(ddr, station, latitude, longitude, altitude, annee)
 mini <- select(dar, station, annee, pression, temperature, precipitations, nuages_bas)
 
 # ecrire dans des fichiers texte
-write_csv(dd, path="meteo/jour_complet.csv")
+write_csv(dd,  path="meteo/jour_complet.csv")
 write_csv(ddr, path="meteo/jour.csv")
-write_csv(dm, path="meteo/mois_complet.csv")
+write_csv(dm,  path="meteo/mois_complet.csv")
 write_csv(dmr, path="meteo/mois.csv")
-write_csv(da, path="meteo/annee_complet.csv")
+write_csv(da,  path="meteo/annee_complet.csv")
 write_csv(dar, path="meteo/annee.csv")
-write_csv(mini, path="meteo/mini.csv")
-write_tsv(mini, path="meteo/mini.tsv")
-write_delim(mini, path="meteo/mini.txt", delim=" ")
+write_csv(  mini, path="meteo/exemple.csv")
+write_tsv(  mini, path="meteo/exemple.tsv")
+write_delim(mini, path="meteo/exemple.txt", delim=" ")
+
+# traduire les fichiers en anglais
+in_english <- function(x) {
+  # renommer les colonnes
+  new_names <- c(pressure="pression", wind_speed="vitesse_vent", dew_point="point_de_rosee", humidity="humidite", rain="pluie", low_clouds="nuages_bas", mid_clouds="nuages_moyens", high_clouds="nuages_hauts", year="annee", month="mois", month_num="mois_num", nb_rainy_days="nb_jours_pluie")
+  new_names <- new_names[new_names %in% names(x)]
+  x <- rename_(x, .dots=new_names)
+
+  # renommer les nuages
+  x$low_clouds <- str_replace(x$low_clouds, "nuages bas", "low clouds")
+  if ("mid_clouds" %in% names(x)) {
+    x$mid_clouds <- str_replace(x$mid_clouds, "nuages moyens", "mid clouds")
+  }
+  if ("high_clouds" %in% names(x)) {
+    x$high_clouds <- str_replace(x$high_clouds, "nuages hauts", "high clouds")
+  }
+  for (i in intersect(c("low_clouds", "mid_clouds", "high_clouds"), names(x))) {
+    x[[i]] <- str_replace(x[[i]], "absents", "absent")
+    x[[i]] <- str_replace(x[[i]], "invisibles", "invisible")
+  }
+
+  return(x)
+}
+
+write_csv(in_english(dd),  path="meteo/daily_full.csv")
+write_csv(in_english(ddr), path="meteo/daily.csv")
+write_csv(in_english(dm),  path="meteo/monthly_full.csv")
+write_csv(in_english(dmr), path="meteo/monthly.csv")
+write_csv(in_english(da),  path="meteo/yearly_full.csv")
+write_csv(in_english(dar), path="meteo/yearly.csv")
+write_csv(  in_english(mini), path="meteo/mini.csv")
+write_tsv(  in_english(mini), path="meteo/mini.tsv")
+write_delim(in_english(mini), path="meteo/mini.txt", delim=" ")
+
