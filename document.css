@@ -133,6 +133,11 @@ p, pre, ol, ul, dl, table {
   margin-bottom: 10px;
 }
 
+pre, :not(pre) > code {
+  padding: 0 2px;
+  border-radius: 0;
+}
+
 /* do not add vertical space for nested lists */
 ul ul, ul ol, ul dl,
 ol ul, ol ol, ol dl,
@@ -140,6 +145,10 @@ dl ul, dl ol, dl dl,
 li p, li pre {
   margin-top: 0;
   margin-bottom: 0;
+}
+/* and join successive code chunks */
+pre + pre {
+  margin-top: -10px;
 }
 
 h1, h2 {
@@ -258,10 +267,10 @@ blockquote {
 /* wrap text in pre */
 pre {
 	word-wrap: break-word;
-	white-space: pre;
-	white-space: -moz-pre-wrap;
-	white-space: pre-wrap;
-	white-space: pre\9; / IE7+ */
+  white-space: pre-wrap;       /* css-3 */
+  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;      /* Opera 4-6 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
 }
 
 /* lists */
