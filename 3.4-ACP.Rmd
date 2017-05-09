@@ -41,7 +41,7 @@ plot(pca_res, choix="ind")
 # big mess
 
 # how many axes to look at
-str(pca_res)
+str(pca_res, 2)
 plot(pca_res$eig$eigenvalue)
 
 # criterion to select the number of "significant" eigen values
