@@ -6,9 +6,9 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   # pour l'énoncé
-  echo=FALSE, eval=FALSE
+  # echo=FALSE, eval=FALSE
   # pour la correction
-  # echo=TRUE, eval=TRUE
+  echo=TRUE, eval=TRUE
 )
 options(stringsAsFactors=TRUE)
 ```
@@ -20,4 +20,101 @@ Séances 1 et 2
 Théorie des tests (alpha, beta, inférence)
 Comparaison de moyennes (indépendant et apparié): test t, test F, test normalité.
 Bartlett et Shapiro, khi2, (tests non paramétriques = non)
+
+## Comparison of means
+
+```{r}
+# compare two years in northern France
+d <- read.csv("meteo/yearly_full.csv")
+d <- subset(d, subset=(year %in% c(2014, 2016) & latitude > 44), select=c(station, year, temperature))
+head(d)
+
+boxplot(temperature ~ year, data=d)
+stripchart(temperature ~ year, data=d, vertical=TRUE)
+
+t.test(temperature ~ year, data=d)
+
+hist(d$temperature, breaks=30)
+# but what really matters is the normality within each class (i.e. the normality of residuals)
+hist(subset(d, year==2014)$temperature, breaks=30)
+shapiro.test(subset(d, year==2014)$temperature)
+
+hist(subset(d, year==2016)$temperature, breaks=30)
+shapiro.test(subset(d, year==2016)$temperature)
+
+var.test(temperature ~ year, data=d)
+```
+
+## Comparison of paired means
+
+```{r}
+# NB: can measurements at two stations really be considered "paired"...
+d <- read.csv("meteo/monthly.csv")
+d <- subset(d, subset=(station %in% c("Brest", "Toulouse") & year==2014), select=c(station, temperature))
+head(d)
+
+boxplot(temperature ~ station, data=d)
+d <- droplevels(d)
+boxplot(temperature ~ station, data=d)
+
+t.test(temperature ~ station, data=d)
+t.test(temperature ~ station, data=d, paired=TRUE)
+
+shapiro.test(subset(d, station=="Brest")$temperature)
+shapiro.test(subset(d, station=="Toulouse")$temperature)
+var.test(temperature ~ station, data=d)
+```
+
+
+## Comparison of conditional distributions
+
+```{r}
+d <- read.csv("meteo/monthly.csv")
+tbl <- table(d$station, d$low_clouds)
+tbl
+chisq.test(tbl)
+
+tbl <- table(d$year, d$low_clouds)
+tbl
+chisq.test(tbl)
+```
+
+## Permutation-based test
+
+```{r}
+# compare two years in northern France
+d <- read.csv("meteo/yearly_full.csv")
+d <- subset(d, subset=(year %in% c(2014, 2016) & latitude > 44), select=c(year, temperature))
+head(d)
+
+observed_diff <- mean(subset(d, year == 2014)$temperature) - mean(subset(d, year == 2016)$temperature)
+observed_diff
+
+# example of resampling
+x <- 1:5
+sample(x)
+sample(x)
+
+n_permut<- 5000
+diffs <- rep(NA, times=n_permut)
+for (i in 1:n_permut) {
+  d$year_resampled <- sample(d$year)
+  diffs[i] <- mean(subset(d, year_resampled == 2014)$temperature) - mean(subset(d, year_resampled == 2016)$temperature)
+}
+
+hist(diffs, breaks=30)
+abline(v=observed_diff, col="red")
+
+# one sided test
+head(diffs > observed_diff)
+sum(diffs > observed_diff) / n_permut
+t.test(temperature ~ year, data=d, alternative="greater")$p.value
+
+# two sided test
+sum(abs(diffs) > abs(observed_diff)) / n_permut
+t.test(temperature ~ year, data=d)$p.value
+```
+
+
+
 
