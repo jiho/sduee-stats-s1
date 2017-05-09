@@ -82,11 +82,15 @@ body {
 body {
   font-family: "Source Sans Pro", sans-serif;
   font-weight: 400;
+  /* color: #747474; */ /* 40% grey Keynote theme */
+  color: #5F5F5F; /* 30% grey */
+  /* color: #424242; */ /* 20% grey */
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: "Source Sans Pro", sans-serif;
   font-weight: 600;
+  color: black;
 }
 
 pre, code {
