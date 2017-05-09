@@ -439,16 +439,16 @@ Practice
 
 ## Manipulate and subset data
 
-```{r}
-subset(d, subset=annee == 2015)
-subset(d, subset=annee > 2015)
-subset(d, subset=annee >= 2015)
-subset(d, subset=(annee >= 2015 & temperature > 14))
-subset(d, subset=(annee == 2014 | annee == 2016))
+```{r echo=TRUE}
+subset(d, subset=year == 2015)
+subset(d, subset=year > 2015)
+subset(d, subset=year >= 2015)
+subset(d, subset=(year >= 2015 & temperature > 14))
+subset(d, subset=(year == 2014 | year == 2016))
 
-subset(d, subset=annee == 2015, select=c(pression, temperature))
-subset(d, subset=annee == 2015, select=c(-pression, -temperature))
-subset(d, subset=annee == 2015, select=c(station:temperature))
+subset(d, subset=year == 2015, select=c(pressure, temperature))
+subset(d, subset=year == 2015, select=c(-pressure, -temperature))
+subset(d, subset=year == 2015, select=c(station:temperature))
 
 # add column
 d$temperatureF <- d$temperature * 9/5 + 32
@@ -467,8 +467,8 @@ nice_colors <- hcl(seq(10, 340, length.out=4), c=80, l=65)
 plot(precipitations ~ temperature, data=d, col=rep(nice_colors, times=4), pch=16)
 legend(8, 1400, legend=2013:2016, col=nice_colors, pch=16)
 
-boxplot(precipitations ~ annee, data=d)
-stripchart(precipitations ~ annee, data=d, vertical=TRUE)
+boxplot(precipitations ~ year, data=d)
+stripchart(precipitations ~ year, data=d, vertical=TRUE)
 boxplot(precipitations ~ station, data=d)
 
 hist(d$temperature)
