@@ -13,14 +13,14 @@ knitr::opts_chunk$set(
 options(stringsAsFactors=TRUE)
 ```
 
-# Analyse en Composantes Principales
+# Principal Components Analysis
 
 ```{r}
-meteo <- read.csv("meteo/mois.csv")
+meteo <- read.csv("meteo/monthly.csv")
 head(meteo)
 
 # numeric columns
-d <- subset(meteo, select=pression:precipitations)
+d <- subset(meteo, select=pressure:precipitations)
 
 pairs(d)
 cor_matrix <- cor(d, use="pairwise.complete.obs", method="pearson")
@@ -75,26 +75,27 @@ plot(pca_res, axes=c(3,4), choix="var")
 # other variables
 
 # identify each observation uniqely
-row.names(d) <- paste(meteo$station, meteo$annee, meteo$mois, sep="_")
+row.names(d) <- paste(meteo$station, meteo$year, meteo$month, sep="_")
 pca_res <- PCA(d, graph=FALSE)
 plot(pca_res, choix="ind")
 # -> spatial structure? 
 
-d <- subset(meteo, select=c(station,pression:precipitations))
+d <- subset(meteo, select=c(station, pressure:precipitations))
 pca_res <- PCA(d, graph=FALSE, quali.sup=1)
+pars <- par(no.readonly=TRUE)
 par(mfrow=c(1,2))
 plot(pca_res, choix="var")
 plot(pca_res, choix="ind")
 plot(pca_res, choix="var")
 plot(pca_res, choix="ind", invisible="ind")
 
-d <- subset(meteo, select=c(mois,pression:precipitations))
+d <- subset(meteo, select=c(month, pressure:precipitations))
 pca_res <- PCA(d, graph=FALSE, quali.sup=1)
 par(mfrow=c(1,2))
 plot(pca_res, choix="var")
 plot(pca_res, choix="ind", invisible="ind")
 
-d <- subset(meteo, select=c(annee,pression:precipitations))
+d <- subset(meteo, select=c(year,pressure:precipitations))
 pca_res <- PCA(d, graph=FALSE, quali.sup=1)
 par(mfrow=c(1,2))
 plot(pca_res, choix="var")
@@ -102,7 +103,7 @@ plot(pca_res, choix="ind", invisible="ind")
 # -> dominated by season
 #    2014+2015: warmed and/or less humid
 
-d <- subset(meteo, select=c(nuages_bas,pression:precipitations))
+d <- subset(meteo, select=c(low_clouds, pressure:precipitations))
 pca_res <- PCA(d, graph=FALSE, quali.sup=1)
 par(mfrow=c(1,2))
 plot(pca_res, choix="var")
