@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-TODO add length, unique, rep, seq
+TODO add length, unique, rep, seq, %in%
 
 # Introduction to statistics and R
 
