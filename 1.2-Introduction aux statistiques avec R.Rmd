@@ -387,23 +387,24 @@ A good organisation for an R project is:
 
 - a main directory which holds the data and the scripts (e.g. my_project)
   NB: scripts are text files with a sequence of R commands
-- the scripts are all in the main directory (e.g. my_project/analysis.R, myProject/data_reading.R)
-- the data can be in sub-directories (e.g. my_project/CTD/ctd_station1.txt)
-- the scripts should work locally, from the project directory (e.g. reference CTD/ctd_station1.txt but not /Users/yourname/Documents/my_project/CTD/ctd_station1.txt). This way, the project can be moved anywhere on your machine and is even portable from computer to computer
+- the scripts are all in the main directory (e.g. `my_project/analysis.R`, `myProject/data_reading.R`)
+- the data can be in sub-directories (e.g. `my_project/CTD/ctd_station1.txt`)
+- the scripts should work locally, from the project directory (e.g. reference `CTD/ctd_station1.txt` but not `/Users/yourname/Documents/my_project/CTD/ctd_station1.txt`). This way, the project can be moved anywhere on your machine and is even portable from computer to computer
 
 A script file contains both commands and comments (lines starting with #)
 Comments are essential and should help you understand what you did a week, a month, or a year from now.
 
 Practice:
+
 - Start a new project directory, copy the data in a subdirectory called "data", start a new script (File > New script), save it in the project directory with a name ending in ".R" (intro_to_R.R for example), read the three data files
-RStudio has a graphical tool to read data : Workspace > Import Dataset > From Text File
+RStudio has a graphical tool to read data : `Workspace > Import Dataset > From Text File`
 Once the parameters are chosen, the appropriate function is written to the console
 Copy it in your script to avoid having to use the interface in the future
 
 
 ## Import data
 
-```{r}
+```{r echo=TRUE}
 d <- read.csv("meteo/mini.csv")
 d
 d <- read.delim("meteo/mini.tsv")
@@ -414,7 +415,7 @@ d
 
 ## Descriptive statistics
 
-```{r}
+```{r echo=TRUE}
 # observe the data structure
 str(d)
 head(d)
@@ -458,7 +459,7 @@ Practice
 
 ## Plots
 
-```{r}
+```{r echo=TRUE}
 plot(x=d$temperature, y=d$precipitations)
 plot(precipitations ~ temperature, data=d)
 
@@ -481,7 +482,7 @@ Practice
 
 ## Simulate data and inspect distributions
 
-```{r}
+```{r echo=TRUE}
 runif(10)
 
 x <- rnorm(30)
