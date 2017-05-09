@@ -119,13 +119,27 @@ meteo$PC1 <- pca_res$ind$coord[,1]
 meteo$PC2 <- pca_res$ind$coord[,2]
 meteo$date <- as.Date(meteo$date)
 
-par(mfrow=c(1,1))
-plot(PC1 ~ date, data=meteo)
-plot(PC1 ~ date, data=meteo, col=meteo$station, ylab="warm and dry")
-legend(x=as.Date("2013-01-01"), 4, col=1:nlevels(meteo$station), legend=levels(meteo$station), pch=1)
-plot(PC2 ~ date, data=meteo, col=meteo$station, ylab="rainy and windy")
+# only one figure now
+par(mfrow=c(1,1), oma=c(0,0,0,4))
+palette(hcl(seq(15, 345, length.out=nlevels(meteo$station)), c=100, l=65))
 
-ggplot2::qplot(date, PC1, colour=station, data=meteo, geom="line") + ylab("warm and dry")
-ggplot2::qplot(date, PC2, colour=station, data=meteo, geom="line") + ylab("rainy and windy")
+plot(PC1 ~ date, data=meteo, col=meteo$station,
+  ylab=expression("warm and dry" %->% ""), pch=16)
+legend(
+  x=par("usr")[2], y=par("usr")[4], bty="n", xpd=NA,
+  legend=levels(meteo$station), col=1:nlevels(meteo$station), pch=16
+)
+
+plot(PC2 ~ date, data=meteo, col=meteo$station,
+  ylab=expression("rainy and windy" %->% ""), pch=16)
+legend(
+  x=par("usr")[2], y=par("usr")[4], bty="n", xpd=NA,
+  legend=levels(meteo$station), col=1:nlevels(meteo$station), pch=16
+)
+
+# simpler and much nicer :-(
+library("ggplot2")
+qplot(date, PC1, colour=station, data=meteo, geom="line") + ylab(expression("warm and dry" %->% ""))
+qplot(date, PC2, colour=station, data=meteo, geom="line") + ylab(expression("rainy and windy"  %->% ""))
 ```
 
