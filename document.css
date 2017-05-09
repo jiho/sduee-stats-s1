@@ -1,0 +1,398 @@
+/*
+ *     CSS style meant for long-form documents
+ *
+ * (c) Copyright 2012-2013 Jean-Olivier Irisson
+ *     GNU General Public License v3
+ *
+ */
+
+@import url(http://fonts.googleapis.com/css?family=Inconsolata:400,700);
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic,700italic);
+
+/* View baseline and blocks */
+/*html { background-image: url(http://basehold.it/i/10); }
+p, pre, ol, ul, dl, table, h1, h2, h3, h4, h5, h6 {
+  background-color: rgba(250,116,109,0.29);
+}*/
+
+
+/* @group Reset */
+
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol, ul {
+  list-style: none;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* @end */
+
+
+/* @group Typography */
+
+/* baseline */
+body {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+body {
+  font-family: "Source Sans Pro", sans-serif;
+/*  font-family: "Alegreya", serif;*/
+  font-weight: 400;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 600;
+}
+
+pre, code {
+  font-family: "Inconsolata";
+}
+
+/* do not affect line height based on <code> elements' font */
+code {
+  line-height: 0;
+}
+
+/* @end */
+
+
+/* @group Sizes and spacing */
+
+/*
+See
+  http://www.smashingmagazine.com/2012/12/17/css-baseline-the-good-the-bad-and-the-ugly/
+for thought about how to set up a baseline grid.
+Basically, the only way of doing it is to set a lineheight then add padding-top to offset the type and remove the same amount from margin-bottom.
+*/
+
+body {
+  margin-top: 60px;
+  margin-bottom: 60px;
+  /* centre content */
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 540px;
+	/* still visible on half macbook screen
+	   matches 80 columns fixed width output with the fonts chosen here */
+}
+
+p, pre, ol, ul, dl, table {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/* do not add vertical space for nested lists */
+ul ul, ul ol, ul dl,
+ol ul, ol ol, ol dl,
+dl ul, dl ol, dl dl,
+li p, li pre {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+h1, h2 {
+  line-height: 40px;
+  margin-top: 40px;
+  margin-bottom: 10px;
+}
+
+h3, h4, h5, h6 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+/* no additional vertical space when titles follow each other */
+h1+h2, h2+h3, h3+h4, h4+h5, h6+h5 {
+  margin-top: 0px;
+}
+
+h1 {
+  font-size: 30px;
+  border-bottom: 1px solid #999;
+  margin-bottom: 19px;
+  /* align on baseline */
+/*  padding-top: 9px;*/
+/*  margin-bottom: 10px;*/
+}
+
+h2 {
+  font-size: 25px;
+/*  padding-top: 5px;*/
+/*  margin-bottom: 10px;*/
+}
+
+h3 {
+  font-size: 18px;
+/*  padding-top: 3px;*/
+/*  margin-bottom: -3px;*/
+}
+
+h4 {
+  font-size: 15px;
+/*  padding-top: 4px;*/
+/*  margin-bottom: -4px;*/
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  margin-top: 19px;
+  margin-bottom: 20px;
+}
+
+/* @end */
+
+
+/* @group Styled elements */
+
+/* colors */
+
+/*body{
+  color: #606060;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: black;
+}*/
+
+
+/* hyphenate everything */
+body {
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
+  text-align: justify;
+}
+
+/* basic styles */
+
+small {
+	font-size: 75%;
+}
+
+strong {
+	font-weight: 500;
+}
+
+em {
+	font-style: italic;
+}
+
+sub, sup {
+  font-size: 75%;
+  /* Zero out the line-height so that it doesn't
+     interfere with the positioning that follows */
+  line-height: 0;
+  /* Where the magic happens: makes all browsers position
+     the sup/sup properly, relative to the surrounding text */
+  position: relative;
+}
+sup {
+  /* Move the superscripted text up */
+  top: -0.5em;
+}
+sub {
+  /* Move the subscripted text down, but only
+     half as far down as the superscript moved up */
+  bottom: -0.25em;
+}
+
+blockquote {
+  font-style: italic;
+  padding-left: 16px;
+  border-left: 1px dotted #999;
+}
+
+/* wrap text in pre */
+pre {
+	word-wrap: break-word;
+	white-space: pre;
+	white-space: -moz-pre-wrap;
+	white-space: pre-wrap;
+	white-space: pre\9; / IE7+ */
+}
+
+/* lists */
+ul, ol {
+  list-style-position: outside;
+  margin-left: 1.2em; /* left aligns bullets with the rest of the text */
+}
+
+dd {
+  margin-left: 1.2em; /* left aligns definition with the rest of the text */
+}
+
+ul  {
+  list-style-type: square;
+}
+
+ol {
+  list-style-type: decimal;
+}
+
+ol ol {
+  list-style-type: lower-alpha;
+}
+
+dt {
+  font-weight: 400;
+}
+
+/* table */
+
+table {
+  width:  100%;
+  border-spacing: 0;
+  border-top: 1px solid #999;
+  border-bottom: 1px solid #999;
+  /* compensate border size */
+  margin-top: -1px;
+  margin-bottom:  -1px;
+}
+
+th, td {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+table th {
+  font-weight: bold;
+  background-color: #e4e4e4;
+  border-bottom: 1px solid #999;
+  padding-top: 5px;
+  /* compensate border size */
+  padding-bottom: 4px;
+}
+
+/* alternating row colors */
+tr:nth-child(even) {
+	background: #F2F2F2;
+}
+/*tr:nth-child(odd) {
+	background: #FFF
+}
+*/
+hr {
+  width: 50%;
+  background-color: #999;
+}
+
+/*img {
+  float: right;
+}*/
+
+
+/* @end */
+
+
+/* @group Personal styles */
+
+.box {
+  width: 100%;
+	background: #DDD;
+  border: 1px dotted #999;
+  /* compensate border size */
+  margin-top: 39px;
+  margin-bottom: -1px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+/* @end */
+
+
+/* @group Numbered paragraphs */
+
+body {
+  counter-reset: section;
+}
+h2:before {
+  content: counter(section);
+  counter-increment: section;
+  float: left;
+  width: 40px;
+  text-align: left;
+}
+h2 {
+  counter-reset: subsection;
+  text-indent: -40px;
+}
+h3:before {
+  content: counter(section) "." counter(subsection);
+  counter-increment: subsection;
+  float: left;
+  width: 40px;
+  text-align: left;
+}
+h3 {
+  counter-reset: subsubsection;
+  text-indent: -40px;
+}
+h4:before {
+  content: counter(section) "." counter(subsection)"." counter(subsubsection);
+  counter-increment: subsubsection;
+  float: left;
+  width: 40px;
+  text-align: left;
+}
+h4 {
+  text-indent: -40px;
+}
+
+/* @end */
+
+
+/* @group Print */
+
+@page {
+  @bottom-right {
+  content: counter(page) " of " counter(pages);
+  }
+}
+
+/* @end */

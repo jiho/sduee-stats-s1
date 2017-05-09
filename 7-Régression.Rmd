@@ -1,0 +1,20 @@
+---
+output: 
+  html_document: 
+    css: document.css
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  # pour l'énoncé
+  echo=FALSE, eval=FALSE
+  # pour la correction
+  # echo=TRUE, eval=TRUE
+)
+options(stringsAsFactors=TRUE)
+```
+
+# Régression
+
+Régression simple et multiple, interactions, diagnostique des résidus
+
+
