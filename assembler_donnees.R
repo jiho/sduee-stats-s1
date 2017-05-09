@@ -27,6 +27,7 @@ dir.create("meteo", showWarnings=F)
 #   download.file(paste0("https://donneespubliques.meteofrance.fr/donnees_libres/Txt/Synop/Archive/synop.",date,".csv.gz"), destfile=paste0("raw/", date, ".csv.gz"), quiet=TRUE)
 # }, .progress="text")
 
+
 ## Lire, assembler et reformater les données ----
 
 # lire tous les fichiers
@@ -222,6 +223,7 @@ ggplot(sup, aes(x=Dim.1, y=Dim.2, alpha=cos2)) +
 #    certains types de nuages peuvent probablement être regroupés
 #    certaines stations sont bien caractéristiques et peuvent être extraites
 
+
 ## Réduire les données ----
 
 load("meteo/jour.RData")
@@ -256,8 +258,9 @@ ggplot(supr, aes(x=Dim.1, y=Dim.2, alpha=cos2)) +
   geom_text_repel(aes(label=label)) +
   facet_wrap(~variable) +
   coord_fixed() + scale_x_continuous(breaks=0) + scale_y_continuous(breaks=0)
+# -> l'essentiel du message est conservé
 
-# inspecter qq relations précises
+# inspecter qq relations 2 à 2
 
 # types de nuages et précipitations
 ggplot(ddr) + geom_boxplot(aes(x=nuages_bas, y=precipitations)) + scale_y_log10()
@@ -268,14 +271,12 @@ ggplot(ddr) + geom_boxplot(aes(x=nuages_hauts, y=precipitations)) + scale_y_log1
 ggplot(ddr) + geom_boxplot(aes(x=annee, y=precipitations)) + scale_y_log10()
 ggplot(ddr) + geom_boxplot(aes(x=annee, y=temperature))
 
-
 # différences entre stations
 ggplot(ddr) + geom_boxplot(aes(x=station, y=precipitations)) + scale_y_log10()
 ggplot(ddr) + geom_boxplot(aes(x=station, y=temperature))
 
 
 ## Aggréger les données à différentes échelles ----
-
 
 reduce <- function(x, ...) {
   o <- group_by(x, ...) %>%
@@ -297,20 +298,23 @@ reduce <- function(x, ...) {
   return(o)
 }
 
+# par mois
 dm <- reduce(dd, station, latitude, longitude, altitude, annee, mois, mois_num)
 dm$date <- ymd(paste0(dm$annee, "-", dm$mois_num, "-1"))
 dmr <- reduce(ddr, station, latitude, longitude, altitude, annee, mois, mois_num)
 dmr$date <- ymd(paste0(dmr$annee, "-", dmr$mois_num, "-1"))
 
-da <- reduce(dd, station, latitude, longitude, altitude, annee)
-dar <- reduce(ddr, station, latitude, longitude, altitude, annee)
-
-# sélectionner qq colonnes
-mini <- select(dar, station, annee, pression, temperature, precipitations, nuages_bas)
-
 # inspecter la nouvelle variable "nb de jours de pluie"
 ggplot(dmr) + geom_boxplot(aes(x=station, y=nb_jours_pluie))
 ggplot(dmr) + geom_histogram(aes(x=nb_jours_pluie), binwidth=1)
+
+
+# par annéee
+da <- reduce(dd, station, latitude, longitude, altitude, annee)
+dar <- reduce(ddr, station, latitude, longitude, altitude, annee)
+
+# sélectionner qq colonnes pour avoir une version encore plus compacte pour l'intro à R
+mini <- select(dar, station, annee, pression, temperature, precipitations, nuages_bas)
 
 # ecrire dans des fichiers texte
 write_csv(dd, path="meteo/jour_complet.csv")
