@@ -473,9 +473,6 @@ boxplot(precipitations ~ station, data=d)
 
 hist(d$temperature)
 hist(d$temperature, breaks=10)
-
-d <- read.csv("meteo/mois.csv")
-
 ```
 
 Practice
