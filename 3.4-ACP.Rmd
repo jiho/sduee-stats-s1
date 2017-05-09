@@ -13,3 +13,118 @@ knitr::opts_chunk$set(
 options(stringsAsFactors=TRUE)
 ```
 
+# Analyse en Composantes Principales
+
+```{r}
+meteo <- read.csv("meteo/mois.csv")
+head(meteo)
+
+# numeric columns
+d <- subset(meteo, select=pression:precipitations)
+
+pairs(d)
+cor_matrix <- cor(d, use="pairwise.complete.obs", method="pearson")
+cor_matrix
+
+abs(cor_matrix)>0.5
+```
+
+
+```{r}
+# PCA
+library("FactoMineR")
+pca_res <- PCA(d, graph=FALSE)
+plot(pca_res, choix="var")
+# study correlations
+
+plot(pca_res, choix="ind")
+# big mess
+
+# how many axes to look at
+str(pca_res)
+plot(pca_res$eig$eigenvalue)
+
+# criterion to select the number of "significant" eigen values
+
+# Kaiser-Guttman
+abline(h=1, col="red")
+# NB: eigenvalues are scaled so that the average eigenvalue is 1. the average eigenvalue is 1
+
+# Broken stick
+broken_stick <- function(p){
+  result <- c()
+	for(j in 1:p){
+		E <- 0
+		for(x in j:p) E <- E+(1/x)
+		result[j] <- E/p
+	}
+	return(result)
+}
+
+bs <- broken_stick(ncol(d)) * sum(pca_res$eig$eigenvalue)
+points(bs, col="red")
+# -> axes 1+2, surely, 3 possibly, 4 eventually, > 5 = no
+
+plot(pca_res, axes=c(1,2), choix="var")
+plot(pca_res, axes=c(2,3), choix="var")
+plot(pca_res, axes=c(3,4), choix="var")
+# -> actually most of what is important is on 1-2, 3 serves to separate windspeed and precipitations
+```
+
+```{r}
+# other variables
+
+# identify each observation uniqely
+row.names(d) <- paste(meteo$station, meteo$annee, meteo$mois, sep="_")
+pca_res <- PCA(d, graph=FALSE)
+plot(pca_res, choix="ind")
+# -> spatial structure? 
+
+d <- subset(meteo, select=c(station,pression:precipitations))
+pca_res <- PCA(d, graph=FALSE, quali.sup=1)
+par(mfrow=c(1,2))
+plot(pca_res, choix="var")
+plot(pca_res, choix="ind")
+plot(pca_res, choix="var")
+plot(pca_res, choix="ind", invisible="ind")
+
+d <- subset(meteo, select=c(mois,pression:precipitations))
+pca_res <- PCA(d, graph=FALSE, quali.sup=1)
+par(mfrow=c(1,2))
+plot(pca_res, choix="var")
+plot(pca_res, choix="ind", invisible="ind")
+
+d <- subset(meteo, select=c(annee,pression:precipitations))
+pca_res <- PCA(d, graph=FALSE, quali.sup=1)
+par(mfrow=c(1,2))
+plot(pca_res, choix="var")
+plot(pca_res, choix="ind", invisible="ind")
+# -> dominated by season
+#    2014+2015: warmed and/or less humid
+
+d <- subset(meteo, select=c(nuages_bas,pression:precipitations))
+pca_res <- PCA(d, graph=FALSE, quali.sup=1)
+par(mfrow=c(1,2))
+plot(pca_res, choix="var")
+plot(pca_res, choix="ind", invisible="ind")
+# -> dominated by season
+#    2014+2015: warmed and/or less humid
+
+```
+
+```{r}
+# PCs are new variables that can be interpreted and plotted
+meteo$PC1 <- pca_res$ind$coord[,1]
+meteo$PC2 <- pca_res$ind$coord[,2]
+meteo$date <- as.Date(meteo$date)
+
+par(mfrow=c(1,1))
+plot(PC1 ~ date, data=meteo)
+plot(PC1 ~ date, data=meteo, col=meteo$station, ylab="warm and dry")
+legend(x=as.Date("2013-01-01"), 4, col=1:nlevels(meteo$station), legend=levels(meteo$station), pch=1)
+plot(PC2 ~ date, data=meteo, col=meteo$station, ylab="rainy and windy")
+
+ggplot2::qplot(date, PC1, colour=station, data=meteo, geom="line") + ylab("warm and dry")
+ggplot2::qplot(date, PC2, colour=station, data=meteo, geom="line") + ylab("rainy and windy")
+```
+
