@@ -20,7 +20,10 @@ options(stringsAsFactors=TRUE)
 ```{r}
 # compare two years in northern France
 d <- read.csv("meteo/yearly_full.csv")
-d <- subset(d, subset=(year %in% c(2014, 2016) & latitude > 44), select=c(station, year, temperature))
+d <- subset(d,
+  subset=(year %in% c(2014, 2016) & latitude > 44),
+  select=c(station, year, temperature)
+)
 head(d)
 
 boxplot(temperature ~ year, data=d)
@@ -29,7 +32,8 @@ stripchart(temperature ~ year, data=d, vertical=TRUE)
 t.test(temperature ~ year, data=d)
 
 hist(d$temperature, breaks=30)
-# but what really matters is the normality within each class (i.e. the normality of residuals)
+# but what really matters is the normality within each class
+# (i.e. the normality of residuals)
 hist(subset(d, year==2014)$temperature, breaks=30)
 shapiro.test(subset(d, year==2014)$temperature)
 
@@ -44,7 +48,10 @@ var.test(temperature ~ year, data=d)
 ```{r}
 # NB: can measurements at two stations really be considered "paired"...
 d <- read.csv("meteo/monthly.csv")
-d <- subset(d, subset=(station %in% c("Brest", "Toulouse") & year==2014), select=c(station, temperature))
+d <- subset(d,
+  subset=(station %in% c("Brest", "Toulouse") & year==2014),
+  select=c(station, temperature)
+)
 head(d)
 
 boxplot(temperature ~ station, data=d)
@@ -78,10 +85,14 @@ chisq.test(tbl)
 ```{r}
 # compare two years in northern France
 d <- read.csv("meteo/yearly_full.csv")
-d <- subset(d, subset=(year %in% c(2014, 2016) & latitude > 44), select=c(year, temperature))
+d <- subset(d,
+  subset=(year %in% c(2014, 2016) & latitude > 44),
+  select=c(station, year, temperature)
+)
 head(d)
 
-observed_diff <- mean(subset(d, year == 2014)$temperature) - mean(subset(d, year == 2016)$temperature)
+observed_diff <- mean(subset(d, year == 2014)$temperature) -
+                 mean(subset(d, year == 2016)$temperature)
 observed_diff
 
 # example of resampling
@@ -93,7 +104,8 @@ n_permut<- 5000
 diffs <- rep(NA, times=n_permut)
 for (i in 1:n_permut) {
   d$year_resampled <- sample(d$year)
-  diffs[i] <- mean(subset(d, year_resampled == 2014)$temperature) - mean(subset(d, year_resampled == 2016)$temperature)
+  diffs[i] <- mean(subset(d, year_resampled == 2014)$temperature) -
+              mean(subset(d, year_resampled == 2016)$temperature)
 }
 
 hist(diffs, breaks=30)
