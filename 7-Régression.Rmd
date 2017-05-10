@@ -6,9 +6,9 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   # pour l'énoncé
-  echo=FALSE, eval=FALSE
+  # echo=FALSE, eval=FALSE
   # pour la correction
-  # echo=TRUE, eval=TRUE
+  echo=TRUE, eval=TRUE
 )
 options(stringsAsFactors=TRUE)
 ```
@@ -17,4 +17,89 @@ options(stringsAsFactors=TRUE)
 
 Régression simple et multiple, interactions, diagnostique des résidus
 
+## Simple regression
+
+```{r}
+d <- read.csv("meteo/monthly_full.csv")
+d <- subset(d, month=="Apr" & altitude < 200 & latitude < 46)
+head(d)
+
+plot(temperature ~ nebulosity, data=d)
+
+m <- lm(temperature ~ nebulosity, data=d)
+
+summary(m)
+
+plot(m)
+# plot(m, 1)
+# plot(m, 2)
+
+res <- residuals(m)
+hist(res, breaks=30)
+shapiro.test(res)
+```
+
+```{r}
+plot(temperature ~ wind_speed, data=d)
+
+m <- lm(temperature ~ wind_speed, data=d)
+
+summary(m)
+shapiro.test(residuals(m))
+plot(m, 1)
+```
+
+
+## Multiple regression
+
+```{r}
+d <- subset(d, select=c(altitude, pressure:precipitations))
+pairs(d)
+
+m <- lm(temperature ~ humidity + nebulosity + wind_speed + pressure + altitude, data=d)
+summary(m)
+
+m <- update(m, . ~ . - wind_speed)
+summary(m)
+
+plot(m, 1:2)
+hist(residuals(m), breaks=30)
+shapiro.test(residuals(m))
+```
+
+```{r}
+dim(d)
+m <- lm(temperature ~ humidity * nebulosity * wind_speed * pressure * altitude, data=d)
+summary(m)
+str(m)
+m$rank < (nrow(d) / 3)
+
+summary(m)
+
+m <- update(m, . ~ . - humidity:nebulosity:wind_speed:pressure:altitude)
+summary(m)
+# least signif amon the 4 x 4 interaction
+m <- update(m, . ~ . - humidity:nebulosity:pressure:altitude)
+summary(m)
+# etc.
+
+# do not do it manually!
+m_max <- lm(temperature ~ humidity * nebulosity * wind_speed * pressure * altitude, data=d)
+m <- step(m_max, scope=formula(m_max), direction="back")
+summary(m)
+
+m <- update(m, . ~ . - humidity:wind_speed:pressure:altitude)
+summary(m)
+m <- step(m, scope=formula(m_max), direction="back")
+summary(m)
+
+m1 <- update(m, . ~ . - nebulosity:pressure)
+summary(m1)
+
+m_min <- m1
+
+plot(m_min, 1)
+plot(m_min, 2)
+shapiro.test(residuals(m_min))
+```
 
