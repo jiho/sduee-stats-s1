@@ -13,13 +13,7 @@ knitr::opts_chunk$set(
 options(stringsAsFactors=TRUE)
 ```
 
-# Les tests statistiques
-
-Séances 1 et 2
-
-Théorie des tests (alpha, beta, inférence)
-Comparaison de moyennes (indépendant et apparié): test t, test F, test normalité.
-Bartlett et Shapiro, khi2, (tests non paramétriques = non)
+# Usual statistical tests
 
 ## Comparison of means
 
