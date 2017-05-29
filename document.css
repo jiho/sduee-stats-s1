@@ -137,6 +137,10 @@ pre, :not(pre) > code {
   padding: 0 2px;
   border-radius: 0;
 }
+pre {
+  border-left: 2px #F5F5F5 solid;
+}
+
 
 /* do not add vertical space for nested lists */
 ul ul, ul ol, ul dl,
