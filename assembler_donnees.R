@@ -330,7 +330,7 @@ write_delim(mini, path="meteo/exemple.txt", delim=" ")
 # traduire les fichiers en anglais
 in_english <- function(x) {
   # renommer les colonnes
-  new_names <- c(pressure="pression", wind_speed="vitesse_vent", dew_point="point_de_rosee", humidity="humidite", rain="pluie", low_clouds="nuages_bas", mid_clouds="nuages_moyens", high_clouds="nuages_hauts", year="annee", month="mois", month_num="mois_num", nb_rainy_days="nb_jours_pluie")
+  new_names <- c(pressure="pression", wind_speed="vitesse_vent", dew_point="point_de_rosee", humidity="humidite", nebulosity="nebulosite", rain="pluie", low_clouds="nuages_bas", mid_clouds="nuages_moyens", high_clouds="nuages_hauts", year="annee", month="mois", month_num="mois_num", nb_rainy_days="nb_jours_pluie")
   new_names <- new_names[new_names %in% names(x)]
   x <- rename_(x, .dots=new_names)
 
