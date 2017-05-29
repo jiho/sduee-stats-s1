@@ -207,7 +207,7 @@ plot(pca, choix="var")
 # celles-ci décrivent en partie les observations: années, stations, mois etc.
 sup <- as.data.frame(pca$quali.sup$coord[,1:2])
 sup$cos2 <- rowSums(pca$quali.sup$cos2[,1:2])
-sup_variables <- lapply(select(d, station, annee, mois, starts_with("nuages")), function(x) {length(unique(x))})
+sup_variables <- lapply(select(dd, station, annee, mois, starts_with("nuages")), function(x) {length(unique(x))})
 sup$variable <- rep(names(sup_variables), times=sup_variables)
 sup$label <- row.names(sup)
 ggplot(sup, aes(x=Dim.1, y=Dim.2, alpha=cos2)) +
@@ -250,7 +250,7 @@ pcar <- ddr %>%
 plot(pcar, choix="var")
 supr <- as.data.frame(pcar$quali.sup$coord[,1:2])
 supr$cos2 <- rowSums(pcar$quali.sup$cos2[,1:2])
-supr_variables <- lapply(select(dr, station, annee, mois, starts_with("nuages")), function(x) {length(unique(x))})
+supr_variables <- lapply(select(ddr, station, annee, mois, starts_with("nuages")), function(x) {length(unique(x))})
 supr$variable <- rep(names(supr_variables), times=supr_variables)
 supr$label <- row.names(supr)
 ggplot(supr, aes(x=Dim.1, y=Dim.2, alpha=cos2)) +
