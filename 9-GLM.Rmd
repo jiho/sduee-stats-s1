@@ -13,3 +13,30 @@ knitr::opts_chunk$set(
 options(stringsAsFactors=TRUE)
 ```
 
+# Generalised linear model
+
+## Poisson regression
+
+```{r}
+d <- read.csv("meteo/monthly.csv")
+head(d)
+
+plot(nb_rainy_days ~ temperature, data=d)
+
+m <- lm(nb_day_rain ~ temperature, data=d)
+plot(m, 1)
+shapiro.test(residuals(m))
+
+hist(d$nb_rainy_days, breaks=30)
+plot()
+plot(dpois((0:100)/100, 8))
+
+```
+
+
+## Logistic regression
+
+```{r}
+
+```
+
