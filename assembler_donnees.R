@@ -317,9 +317,9 @@ dar <- reduce(ddr, station, latitude, longitude, altitude, annee)
 mini <- select(dar, station, annee, pression, temperature, precipitations, nuages_bas)
 
 # ecrire dans des fichiers texte
-write_csv(dd,  path="meteo/jour_complet.csv")
-write_csv(ddr, path="meteo/jour.csv")
-write_csv(dm,  path="meteo/mois_complet.csv")
+# write_csv(dd,  path=gzfile("meteo/jour_complet.csv.gz"))
+write_csv(ddr, path=gzfile("meteo/jour.csv.gz"))
+write_csv(dm,  path=gzfile("meteo/mois_complet.csv.gz"))
 write_csv(dmr, path="meteo/mois.csv")
 write_csv(da,  path="meteo/annee_complet.csv")
 write_csv(dar, path="meteo/annee.csv")
@@ -350,9 +350,9 @@ in_english <- function(x) {
   return(x)
 }
 
-write_csv(in_english(dd),  path="meteo/daily_full.csv")
-write_csv(in_english(ddr), path="meteo/daily.csv")
-write_csv(in_english(dm),  path="meteo/monthly_full.csv")
+# write_csv(in_english(dd),  path=gzfile("meteo/daily_full.csv.gz"))
+write_csv(in_english(ddr), path=gzfile("meteo/daily.csv.gz"))
+write_csv(in_english(dm),  path=gzfile("meteo/monthly_full.csv.gz"))
 write_csv(in_english(dmr), path="meteo/monthly.csv")
 write_csv(in_english(da),  path="meteo/yearly_full.csv")
 write_csv(in_english(dar), path="meteo/yearly.csv")

@@ -20,7 +20,7 @@ Régression simple et multiple, interactions, diagnostique des résidus
 ## Simple regression
 
 ```{r}
-d <- read.csv("meteo/monthly_full.csv")
+d <- read.csv("meteo/monthly_full.csv.gz")
 d <- subset(d, month=="Apr" & altitude < 200 & latitude < 46)
 head(d)
 
